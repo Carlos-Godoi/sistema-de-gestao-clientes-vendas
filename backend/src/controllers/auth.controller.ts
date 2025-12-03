@@ -38,7 +38,7 @@ export const registerUser = async (req: Request, res: Response) => {
             { expiresIn: TOKEN_EXPIRATION }
         );
 
-        res.status(201).json({
+        return res.status(201).json({
             message: 'Usuário cadastrado com sucesso!',
             token,
             user: { id: newUser._id, name: newUser.name, email: newUser.email, role: newUser.role }
@@ -46,7 +46,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.error('Erro no cadastro:', error);
-        res.status(500).json({ message: 'Erro interno do servidor durante o cadastro.' });
+        return res.status(500).json({ message: 'Erro interno do servidor durante o cadastro.' });
     }
 };
 
@@ -79,7 +79,7 @@ export const loginUser = async (req: Request, res: Response) => {
             { expiresIn: TOKEN_EXPIRATION }
         );
 
-        res.json({
+        return res.json({
             message: 'Login bem-sucedido!',
             token,
             user: { id: user._id, name: user.name, email: user.email, role: user.role }
@@ -87,7 +87,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.error('Erro no login:', error);
-        res.status(500).json({ message: 'Erro interno do servidor durante o login.' });
+        return res.status(500).json({ message: 'Erro interno do servidor durante o login.' });
     }
 };
 
@@ -95,7 +95,7 @@ export const loginUser = async (req: Request, res: Response) => {
 export const protect = (req: Request, res: Response, next: any) => {
     let token;
 
-    if  (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             // Pegar o token do cabeçalho 'Bearer [token]'
             token = req.headers.authorization.split(' ')[1];
@@ -109,11 +109,11 @@ export const protect = (req: Request, res: Response, next: any) => {
             next();
         } catch (error) {
             console.error('Erro na autenticação do token:', error);
-            res.status(401).json({ message: 'Não autorizado, token falhou ou expirou.' });
+            return res.status(401).json({ message: 'Não autorizado, token falhou ou expirou.' });
         }
     }
 
     if (!token) {
-        res.status(401).json({ message: 'Não autorizado, sem token.' });
+        return res.status(401).json({ message: 'Não autorizado, sem token.' });
     }
 };
