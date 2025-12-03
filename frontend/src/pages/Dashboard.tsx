@@ -1,6 +1,6 @@
 import React from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import { UserForm } from './pages/UserForm';
+import { AuthProvider, useAuth } from '../context/AuthContext';
+import { UserForm } from './UserForm';
 
 // --- Componente de Dashboard (Para usuários autenticados) ---
 const Dashboard: React.FC = () => {
