@@ -15,6 +15,7 @@ export interface AuthContextType extends AuthState {
   logout: () => void;
   isLoading: boolean;
   error: string | null;
+  setError: (msg: string | null) => void;
 }
 
 // 1. Criação do Contexto
@@ -104,7 +105,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...authState, login, register, logout, isLoading, error }}>
+    <AuthContext.Provider value={{ ...authState, login, register, logout, isLoading, error, setError }}>
       {children}
     </AuthContext.Provider>
   );
